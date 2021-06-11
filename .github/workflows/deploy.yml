@@ -1,0 +1,57 @@
+name: Deploy Terraform-Oci
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+
+  build:    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name:  Upload Artifact 
+        uses: actions/upload-artifact@v1 
+        with: 
+          name: terraform 
+          path: ${{ github.workspace }}
+
+  deploy-dev-infra: 
+    name: Deploy Infra Dev
+    runs-on: ubuntu-latest
+
+    defaults: 
+      run: 
+        working-directory:    ${{ github.workspace }}
+
+    env:
+      ARM_CLIENT_ID:          ${{ secrets.TF_ARM_CLIENT_ID  }}
+      ARM_SUBSCRIPTION_ID:    ${{ secrets.TF_ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID:          ${{ secrets.TF_ARM_TENANT_ID }}
+      ARM_CLIENT_SECRET:      ${{ secrets.TF_ARM_CLIENT_SECRET }}
+      
+
+     
+    environment:
+      name: prod 
+
+    needs: build 
+    steps:
+      - name: Download Terraform 
+        uses: actions/download-artifact@v2
+        with: 
+          name: terraform
+          path: ${{ github.workspace }}
+
+  
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Azure Plan
+        id: az-plan
+        run: terraform plan  
+        continue-on-error: true
+
