@@ -15,6 +15,7 @@ jobs:
       - name:  Upload Artifact 
         uses: actions/upload-artifact@v1 
         with: 
+          terraform_version: 0.13.6
           name: terraform 
           path: ${{ github.workspace }}
 
@@ -42,6 +43,7 @@ jobs:
       - name: Download Terraform 
         uses: actions/download-artifact@v2
         with: 
+          terraform_version: 0.13.6
           name: terraform
           path: ${{ github.workspace }}
 
