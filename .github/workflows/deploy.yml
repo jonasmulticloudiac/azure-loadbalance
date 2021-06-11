@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      
       - name:  Upload Artifact 
         uses: actions/upload-artifact@v1 
         with: 
-          terraform_version: 0.13.6
           name: terraform 
           path: ${{ github.workspace }}
 
@@ -40,10 +40,13 @@ jobs:
 
     needs: build 
     steps:
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.6
+
       - name: Download Terraform 
         uses: actions/download-artifact@v2
         with: 
-          terraform_version: 0.13.6
           name: terraform
           path: ${{ github.workspace }}
 
