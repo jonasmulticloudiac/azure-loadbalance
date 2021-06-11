@@ -1,12 +1,3 @@
-# Create public IPs
-resource "azurerm_public_ip" "PUBIPtftec" {
-  name                = "PUBIPtftec "
-  location            = azurerm_resource_group.RGtftec.location
-  resource_group_name = azurerm_resource_group.RGtftec.name
-  allocation_method   = "Static"
-
-}
-
 # Create a Load Balancer Resource. 
 resource "azurerm_lb" "LBtftec" {
   name                = "LB-tftec"

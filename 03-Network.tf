@@ -2,7 +2,7 @@
 resource "azurerm_virtual_network" "VNETtftec" {
   name                = "VNET-tftec"
   address_space       = ["10.0.0.0/16"]
-  location            = var.location
+  location            = azurerm_resource_group.RGtftec.location
   resource_group_name = azurerm_resource_group.RGtftec.name
 
   tags = (
@@ -19,12 +19,11 @@ resource "azurerm_subnet" "SUBtftec" {
 
 }
 
-
 # Create network interface
 resource "azurerm_network_interface" "NICtftec" {
   count               = var.numVMS
   name                = "NIC-${count.index}-tftec"
-  location            = var.location
+  location            = azurerm_resource_group.RGtftec.location
   resource_group_name = azurerm_resource_group.RGtftec.name
 
   ip_configuration {
@@ -35,6 +34,14 @@ resource "azurerm_network_interface" "NICtftec" {
   }
 }
 
+# Create public IPs
+resource "azurerm_public_ip" "PUBIPtftec" {
+  name                = "PUBIPtftec "
+  location            = azurerm_resource_group.RGtftec.location
+  resource_group_name = azurerm_resource_group.RGtftec.name
+  allocation_method   = "Static"
+
+}
 
 #Associated nic-interface to backend-pool
 resource "azurerm_network_interface_backend_address_pool_association" "NIBACKPOOLAStftec" {
@@ -48,7 +55,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "NIBACKPOO
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "NSGtftec" {
   name                = "NSG-tftec"
-  location            = var.location
+  location            = azurerm_resource_group.RGtftec.location
   resource_group_name = azurerm_resource_group.RGtftec.name
 
   tags = {
@@ -84,7 +91,6 @@ resource "azurerm_network_security_rule" "NSGRULEStftec" {
   destination_application_security_group_ids = [azurerm_application_security_group.ASGtftec.id]
   network_security_group_name                = azurerm_network_security_group.NSGtftec.name
   resource_group_name                        = azurerm_resource_group.RGtftec.name
-
 
 }
 
