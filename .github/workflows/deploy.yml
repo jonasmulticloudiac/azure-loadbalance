@@ -1,4 +1,4 @@
-name: Deploy Terraform-Oci
+name: Deploy TF-Azure-LoadBalance
 
 on:
   workflow_dispatch:
@@ -33,8 +33,6 @@ jobs:
       ARM_TENANT_ID:          ${{ secrets.TF_ARM_TENANT_ID }}
       ARM_CLIENT_SECRET:      ${{ secrets.TF_ARM_CLIENT_SECRET }}
       
-
-     
     environment:
       name: prod 
 
@@ -49,7 +47,6 @@ jobs:
         with: 
           name: terraform
           path: ${{ github.workspace }}
-
   
       - name: Terraform Init
         id: init
@@ -59,4 +56,10 @@ jobs:
         id: az-plan
         run: terraform plan  
         continue-on-error: true
+
+      - name: Terraform Azure Plan
+        id: az-deploy
+        run: terraform apply -auto-approve  
+ 
+
 
