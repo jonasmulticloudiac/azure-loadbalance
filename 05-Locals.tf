@@ -6,9 +6,9 @@ locals {
 
   tags = {
 
-    environment  = var.environment
-    location     = var.location
-    owner        = var.owner
+    environment = var.environment
+    location    = var.location
+    owner       = var.owner
   }
 
 

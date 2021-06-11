@@ -3,7 +3,6 @@ resource "azurerm_lb" "LBtftec" {
   name                = "LB-tftec"
   location            = azurerm_resource_group.RGtftec.location
   resource_group_name = azurerm_resource_group.RGtftec.name
-  depends_on = [azurerm_public_ip.PUBIPtftec]
 
 
   frontend_ip_configuration {

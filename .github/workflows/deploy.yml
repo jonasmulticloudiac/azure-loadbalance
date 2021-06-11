@@ -57,7 +57,7 @@ jobs:
         run: terraform plan  
         continue-on-error: true
 
-      - name: Terraform Azure Plan
+      - name: Terraform Azure Deploy
         id: az-deploy
         run: terraform apply -auto-approve  
  

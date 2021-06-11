@@ -1,5 +1,5 @@
 variable "vmName" { default = "VM-LINUX" }
-variable "rgName" { default = "RG-MOD05AZ" }
+variable "rgName" { default = "RG-AZM5-TFTEC" }
 variable "environment" { default = "loadbalance" }
 variable "location" { default = "eastus" }
 variable "faultdomain" { default = "3" }
