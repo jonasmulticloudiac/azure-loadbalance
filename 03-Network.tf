@@ -19,15 +19,6 @@ resource "azurerm_subnet" "SUBtftec" {
 
 }
 
-# Create public IPs
-resource "azurerm_public_ip" "PUBIPtftec" {
-  name                = "PUBIPtftec "
-  location            = var.location
-  resource_group_name = azurerm_resource_group.RGtftec.name
-  allocation_method   = "Static"
-
-}
-
 
 # Create network interface
 resource "azurerm_network_interface" "NICtftec" {
