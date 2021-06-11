@@ -1,0 +1,54 @@
+name: Delete  TF-Azure-LoadBalance
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+
+  build:    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      
+      - name:  Upload Artifact 
+        uses: actions/upload-artifact@v1 
+        with: 
+          name: terraform 
+          path: ${{ github.workspace }}
+
+  deploy-dev-infra: 
+    name: Deploy Infra Dev
+    runs-on: ubuntu-latest
+
+    defaults: 
+      run: 
+        working-directory:    ${{ github.workspace }}
+
+    env:
+      ARM_CLIENT_ID:          ${{ secrets.TF_ARM_CLIENT_ID  }}
+      ARM_SUBSCRIPTION_ID:    ${{ secrets.TF_ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID:          ${{ secrets.TF_ARM_TENANT_ID }}
+      ARM_CLIENT_SECRET:      ${{ secrets.TF_ARM_CLIENT_SECRET }}
+      
+    environment:
+      name: prod 
+
+    needs: build 
+    steps:
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.6
+
+      - name: Download Terraform 
+        uses: actions/download-artifact@v2
+        with: 
+          name: terraform
+          path: ${{ github.workspace }}
+  
+
+      - name: Terraform Zoombie  Apply
+        id: death-apply
+        run: terraform destroy -auto-approve
