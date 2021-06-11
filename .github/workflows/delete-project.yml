@@ -53,7 +53,7 @@ jobs:
         run: terraform init
 
 
-      - name: Terraform Zoombie Deploy
+      - name: Terraform Zoombie Destroy
         id: az-zoombie
         run: terraform destroy -auto-approve  
  
