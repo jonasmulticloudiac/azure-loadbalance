@@ -48,7 +48,12 @@ jobs:
           name: terraform
           path: ${{ github.workspace }}
   
+      - name: Terraform Init
+        id: init
+        run: terraform init
 
-      - name: Terraform Zoombie  Apply
-        id: death-apply
-        run: terraform destroy -auto-approve
+
+      - name: Terraform Zoombie Deploy
+        id: az-zoombie
+        run: terraform destroy -auto-approve  
+ 
